@@ -1,10 +1,11 @@
 export const globalOptions = {
-  name: "fancy-dew-42500",
-  url: "https://fancy-dew-42500.botics.co",
-  api: "https://fancy-dew-42500.botics.co/api/v1",
-  screenOptions: {
-    headerShown: false
-  }
+  "name": "fancy-dew-42500",
+  "url": "https://fancy-dew-42500.botics.co",
+  "api": "https://fancy-dew-42500.botics.co/api/v1",
+  "screenOptions": {
+    "headerShown": false
+  },
+  "initialRoute": "ScreenAI3"
 };
 export const modulesOptions = {
   "@modules/app-menu": {

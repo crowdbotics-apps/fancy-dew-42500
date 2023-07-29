@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
 
 const TwitterScreen = () => {
   const [tweets, setTweets] = useState([{
@@ -18,6 +18,7 @@ const TwitterScreen = () => {
     likes: 0,
     reposts: 0
   }]);
+  const [newTweet, setNewTweet] = useState("");
 
   const handleLike = id => {
     setTweets(prevTweets => prevTweets.map(tweet => tweet.id === id ? { ...tweet,
@@ -32,12 +33,15 @@ const TwitterScreen = () => {
   };
 
   const handleNewPost = () => {
-    setTweets(prevTweets => [...prevTweets, {
-      id: prevTweets.length + 1,
-      text: "New tweet",
-      likes: 0,
-      reposts: 0
-    }]);
+    if (newTweet.trim() !== "") {
+      setTweets(prevTweets => [...prevTweets, {
+        id: prevTweets.length + 1,
+        text: newTweet,
+        likes: 0,
+        reposts: 0
+      }]);
+      setNewTweet("");
+    }
   };
 
   return <SafeAreaView style={styles.container}>
@@ -63,6 +67,7 @@ const TwitterScreen = () => {
               </View>
             </View>
           </View>)}
+        <TextInput style={styles.input} placeholder="Type your tweet here" value={newTweet} onChangeText={text => setNewTweet(text)} />
         <TouchableOpacity style={styles.newPostButton} onPress={handleNewPost}>
           <Text style={styles.newPostButtonText}>New Post</Text>
         </TouchableOpacity>
@@ -123,6 +128,13 @@ const styles = StyleSheet.create({
   actionButtonCount: {
     fontSize: 14,
     fontWeight: "bold"
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
   },
   newPostButton: {
     backgroundColor: "#1DA1F2",
