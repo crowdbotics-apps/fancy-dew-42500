@@ -6,19 +6,24 @@ const TwitterScreen = () => {
     id: 1,
     text: "This is a tweet",
     likes: 0,
-    reposts: 0
+    reposts: 0,
+    video: null
   }, {
     id: 2,
     text: "Another tweet",
     likes: 0,
-    reposts: 0
+    reposts: 0,
+    video: null
   }, {
     id: 3,
     text: "One more tweet",
     likes: 0,
-    reposts: 0
+    reposts: 0,
+    video: null
   }]);
   const [newTweet, setNewTweet] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleLike = id => {
     setTweets(prevTweets => prevTweets.map(tweet => tweet.id === id ? { ...tweet,
@@ -38,23 +43,55 @@ const TwitterScreen = () => {
         id: prevTweets.length + 1,
         text: newTweet,
         likes: 0,
-        reposts: 0
+        reposts: 0,
+        video: null
       }]);
       setNewTweet("");
     }
   };
 
+  const handleSearch = () => {// Perform search logic here
+    // Set searchResults state with the search results
+  };
+
+  const handleProfile = () => {
+    setShowProfile(!showProfile);
+  };
+
+  const handleAddVideo = () => {// Implement logic to add video to tweet
+  };
+
   return <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity style={styles.profileButton} onPress={handleProfile}>
+          <Image source={require("./WIN_20230407_19_45_50_Pro.jpg")} style={styles.profileImage} />
+        </TouchableOpacity>
         <Text style={styles.headerText}>KK Media</Text>
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInput} placeholder="Search users" value={searchQuery} onChangeText={text => setSearchQuery(text)} />
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <Text style={styles.searchButtonText}>Search</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+      {showProfile && <View style={styles.profileContainer}>
+          <Text style={styles.profileText}>Profile</Text>
+          <Image source={{
+        uri: "https://tinyurl.com/42evm3m3"
+      }} style={styles.profileImageSmall} />
+          <Text style={styles.profileName}>John Doe</Text>
+          <Text style={styles.profileBio}>Software Developer</Text>
+        </View>}
       <View style={styles.content}>
         {tweets.map(tweet => <View key={tweet.id} style={styles.tweetContainer}>
             <Image source={{
           uri: "https://tinyurl.com/42evm3m3"
-        }} style={styles.profileImage} />
+        }} style={styles.tweetProfileImage} />
             <View style={styles.tweetContent}>
               <Text style={styles.tweetText}>{tweet.text}</Text>
+              {tweet.video && <Image source={{
+            uri: tweet.video
+          }} style={styles.tweetVideo} />}
               <View style={styles.actionsContainer}>
                 <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(tweet.id)}>
                   <Text style={styles.actionButtonText}>Like</Text>
@@ -63,6 +100,9 @@ const TwitterScreen = () => {
                 <TouchableOpacity style={styles.actionButton} onPress={() => handleRepost(tweet.id)}>
                   <Text style={styles.actionButtonText}>Repost</Text>
                   <Text style={styles.actionButtonCount}>{tweet.reposts}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.actionButton} onPress={() => handleAddVideo(tweet.id)}>
+                  <Text style={styles.actionButtonText}>Add Video</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -81,25 +121,87 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   header: {
-    height: 50,
+    height: 100,
     backgroundColor: "#1DA1F2",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "row"
   },
   headerText: {
     color: "#fff",
     fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 10,
+    width: 74,
+    height: 65
+  },
+  searchContainer: {
+    flexDirection: "row",
+    marginTop: 10
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    flex: 1,
+    marginRight: 10,
+    width: 94,
+    height: 43
+  },
+  searchButton: {
+    backgroundColor: "#1DA1F2",
+    borderRadius: 5,
+    padding: 10,
+    alignItems: "center"
+  },
+  searchButtonText: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "bold"
+  },
+  profileContainer: {
+    alignItems: "center",
+    padding: 10
+  },
+  profileText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10
+  },
+  profileImage: {
+    width: 68,
+    height: 66,
+    borderRadius: 50
+  },
+  profileImageSmall: {
+    width: 50,
+    height: 50,
+    borderRadius: 25
+  },
+  profileName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10
+  },
+  profileBio: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 5
   },
   content: {
     flex: 1,
     padding: 10
   },
+  profileButton: {
+    alignItems: "center",
+    marginRight: 10
+  },
   tweetContainer: {
     flexDirection: "row",
     marginBottom: 10
   },
-  profileImage: {
+  tweetProfileImage: {
     width: 50,
     height: 50,
     borderRadius: 25
@@ -111,6 +213,11 @@ const styles = StyleSheet.create({
   },
   tweetText: {
     fontSize: 16
+  },
+  tweetVideo: {
+    width: "100%",
+    height: 200,
+    marginTop: 10
   },
   actionsContainer: {
     flexDirection: "row",
