@@ -61,21 +61,28 @@ const TwitterScreen = () => {
   const handleAddVideo = () => {// Implement logic to add video to tweet
   };
 
+  const handleGoToProfile = () => {// Navigate to profile screen
+  };
+
   return <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.profileButton} onPress={handleProfile}>
-          <Image source={require("./WIN_20230407_19_45_50_Pro.jpg")} style={styles.profileImage} />
+          <Image source={{
+          uri: "https://tinyurl.com/42evm3m3"
+        }} style={styles.profileImage} />
         </TouchableOpacity>
-        <Text style={styles.headerText}>KK Media</Text>
+        <Image source={require("./KK logo.jpg")} style={styles.logo} />
         <View style={styles.searchContainer}>
-          <TextInput style={styles.searchInput} placeholder="Search users" value={searchQuery} onChangeText={text => setSearchQuery(text)} />
+          <TextInput style={styles.searchInput} placeholder="Search Twitter" value={searchQuery} onChangeText={text => setSearchQuery(text)} />
           <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
             <Text style={styles.searchButtonText}>Search</Text>
           </TouchableOpacity>
         </View>
       </View>
       {showProfile && <View style={styles.profileContainer}>
-          <Text style={styles.profileText}>Profile</Text>
+          <TouchableOpacity onPress={handleGoToProfile}>
+            <Text style={styles.profileText}>Profile</Text>
+          </TouchableOpacity>
           <Image source={{
         uri: "https://tinyurl.com/42evm3m3"
       }} style={styles.profileImageSmall} />
@@ -107,9 +114,9 @@ const TwitterScreen = () => {
               </View>
             </View>
           </View>)}
-        <TextInput style={styles.input} placeholder="Type your tweet here" value={newTweet} onChangeText={text => setNewTweet(text)} />
+        <TextInput style={styles.input} placeholder="What's happening?" value={newTweet} onChangeText={text => setNewTweet(text)} />
         <TouchableOpacity style={styles.newPostButton} onPress={handleNewPost}>
-          <Text style={styles.newPostButtonText}>New Post</Text>
+          <Text style={styles.newPostButtonText}>Tweet</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>;
@@ -127,13 +134,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 10,
-    width: 74,
-    height: 65
+  logo: {
+    width: 45,
+    height: 43,
+    marginLeft: 10
   },
   searchContainer: {
     flexDirection: "row",
@@ -142,16 +146,15 @@ const styles = StyleSheet.create({
   searchInput: {
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 10,
     flex: 1,
     marginRight: 10,
-    width: 94,
-    height: 43
+    backgroundColor: "#fff"
   },
   searchButton: {
     backgroundColor: "#1DA1F2",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 10,
     alignItems: "center"
   },
@@ -171,8 +174,8 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     width: 68,
-    height: 66,
-    borderRadius: 50
+    height: 68,
+    borderRadius: 34
   },
   profileImageSmall: {
     width: 50,
@@ -245,7 +248,7 @@ const styles = StyleSheet.create({
   },
   newPostButton: {
     backgroundColor: "#1DA1F2",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 10,
     alignItems: "center",
     marginTop: 10
